@@ -1,10 +1,16 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:edit, :update]
+  before_action :set_user, only: [:edit, :update, :followings, :followers]
   before_action :edit_user_check, only: [:edit, :update]
 
   def show
-    @user = User.find(params[:id])
-    @microposts = @user.microposts.order(created_at: :desc)
+    if User.find(params[:id]) 
+      @user = User.find(params[:id]) 
+      @microposts = @user.microposts.order(created_at: :desc)
+    else
+      flash[:error] = "user not found"
+      redirect_to root_path
+    end
+
   end
   
   def new
@@ -34,6 +40,15 @@ class UsersController < ApplicationController
     end
   end
   
+  def followings
+    
+    @following = @user.following_users
+  end
+  
+  def followers
+    @follower = @user.follower_users
+  end
+  
   private
   
   def user_params
@@ -48,4 +63,5 @@ class UsersController < ApplicationController
   def edit_user_check
     redirect_to root_path unless current_user == @user
   end
+  
 end

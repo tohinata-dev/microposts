@@ -1,0 +1,35 @@
+<div class="row">
+    <div  class="col-md-3">
+        <aside>
+            <section class="user_info">
+                <h1>
+                <%= gravatar_for @user %>
+                <span><%=  @user.name %></span>
+                <span>rejon  :<%= @user.area %></span>
+              </h1>
+            </section>
+        </aside>
+    </div>
+    <div class="col-md-9">
+        <span>フォロー</span>
+        <span><%= link_to "フォロワー",followers_user_path(@user) %></span>
+    </div>
+    <div class="col-md-9">    
+        <% @following.each do |following_user| %>
+            <div class="follow_user col-md-3">
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                        <%= link_to gravatar_for(following_user, size: 50), following_user -%>
+                    </div>
+                    <div class="col-md-7">
+                        <span class="user"><%= link_to following_user.name, following_user %></span>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                    <div class="profile"><%= following_user.profile %></div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
